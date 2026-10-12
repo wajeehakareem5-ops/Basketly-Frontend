@@ -1,6 +1,19 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api/v1';
+const getApiBaseUrl = (): string => {
+  // If explicitly provided via VITE_API_BASE_URL environment variable, use it
+  if (import.meta.env.VITE_API_BASE_URL) {
+    return import.meta.env.VITE_API_BASE_URL;
+  }
+  // When running in production on Vercel or cloud web, default to live Render backend
+  if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+    return 'https://basketly-backend.onrender.com/api/v1';
+  }
+  // Local development default (routed through Vite dev proxy)
+  return '/api/v1';
+};
+
+const API_BASE_URL = getApiBaseUrl();
 
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,
