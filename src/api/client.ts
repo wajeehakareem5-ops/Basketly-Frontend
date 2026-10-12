@@ -1,23 +1,37 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 
-const getApiBaseUrl = (): string => {
-  // If explicitly provided via VITE_API_BASE_URL environment variable, use it
-  if (import.meta.env.VITE_API_BASE_URL) {
-    return import.meta.env.VITE_API_BASE_URL;
+const normalizeApiBaseUrl = (rawUrl?: string): string => {
+  let url = (rawUrl || '').trim();
+
+  // If not provided in env, choose intelligent default
+  if (!url) {
+    if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+      return 'https://basketly-backend.onrender.com/api/v1';
+    }
+    return '/api/v1';
   }
-  // When running in production on Vercel or cloud web, default to live Render backend
-  if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
-    return 'https://basketly-backend.onrender.com/api/v1';
+
+  // Remove trailing slashes
+  url = url.replace(/\/+$/, '');
+
+  // If user or host provided URL without /api/v1, automatically append it
+  if (!url.endsWith('/api/v1')) {
+    if (url.endsWith('/api')) {
+      url = `${url}/v1`;
+    } else {
+      url = `${url}/api/v1`;
+    }
   }
-  // Local development default (routed through Vite dev proxy)
-  return '/api/v1';
+
+  return url;
 };
 
-const API_BASE_URL = getApiBaseUrl();
+export const API_BASE_URL = normalizeApiBaseUrl(import.meta.env.VITE_API_BASE_URL);
 
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,
   withCredentials: true,
+  timeout: 30000,
   headers: {
     'Content-Type': 'application/json',
   },

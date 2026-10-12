@@ -107,10 +107,10 @@ export const LoginPage: React.FC = () => {
 
             <button
               type="submit"
-              disabled={submitting || isLoading}
+              disabled={submitting}
               className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl shadow-card text-sm font-bold text-white bg-forest hover:bg-forest-deep focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-forest transition active:scale-98 disabled:opacity-50"
             >
-              <span>Sign in to Basketly</span>
+              <span>{submitting ? 'Signing in...' : 'Sign in to Basketly'}</span>
               <ArrowRight className="w-4 h-4 text-lime" />
             </button>
           </form>
@@ -124,8 +124,8 @@ export const LoginPage: React.FC = () => {
               <button
                 type="button"
                 onClick={() => handleDemoLogin('user')}
-                disabled={submitting || isLoading}
-                className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl border border-border bg-sage-light hover:bg-sage text-xs font-bold text-text-primary transition"
+                disabled={submitting}
+                className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl border border-border bg-sage-light hover:bg-sage text-xs font-bold text-text-primary transition disabled:opacity-50"
               >
                 <User className="w-4 h-4 text-forest" />
                 <span>Demo User</span>
@@ -133,8 +133,8 @@ export const LoginPage: React.FC = () => {
               <button
                 type="button"
                 onClick={() => handleDemoLogin('admin')}
-                disabled={submitting || isLoading}
-                className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl border border-border bg-sage-light hover:bg-sage text-xs font-bold text-text-primary transition"
+                disabled={submitting}
+                className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl border border-border bg-sage-light hover:bg-sage text-xs font-bold text-text-primary transition disabled:opacity-50"
               >
                 <ShieldCheck className="w-4 h-4 text-forest" />
                 <span>Admin User</span>
