@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-sage text-text-primary antialiased font-sans;
+    min-height: 100vh;
+  }
+
+  /* Custom subtle scrollbars */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border-dark rounded-full;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-forest-light;
+  }
+}
